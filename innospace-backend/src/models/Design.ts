@@ -11,6 +11,7 @@ export interface IDesignImage {
 export interface IDesign extends Document {
   title: string;
   description: string;
+  detailedDescription?: string;
   category: Types.ObjectId;
   images: IDesignImage[];
   isActive: boolean;
@@ -22,6 +23,18 @@ export interface IDesign extends Document {
     max: number;
     currency: string;
   };
+  projectDetails?: {
+    area?: string;
+    duration?: string;
+    location?: string;
+    client?: string;
+    style?: string;
+    budget?: string;
+    completedDate?: Date;
+  };
+  features?: string[];
+  materials?: string[];
+  colors?: string[];
   seo?: {
     metaTitle?: string;
     metaDescription?: string;
@@ -71,6 +84,11 @@ const DesignSchema = new Schema<IDesign>({
     trim: true,
     maxlength: [1000, 'Description cannot exceed 1000 characters'],
   },
+  detailedDescription: {
+    type: String,
+    trim: true,
+    maxlength: [5000, 'Detailed description cannot exceed 5000 characters'],
+  },
   category: {
     type: Schema.Types.ObjectId,
     ref: 'Category',
@@ -78,12 +96,7 @@ const DesignSchema = new Schema<IDesign>({
   },
   images: {
     type: [DesignImageSchema],
-    validate: {
-      validator: function(images: IDesignImage[]) {
-        return images && images.length > 0;
-      },
-      message: 'At least one image is required',
-    },
+    default: [],
   },
   isActive: {
     type: Boolean,
@@ -117,6 +130,47 @@ const DesignSchema = new Schema<IDesign>({
       enum: ['INR', 'USD', 'EUR'],
     },
   },
+  projectDetails: {
+    area: {
+      type: String,
+      trim: true,
+    },
+    duration: {
+      type: String,
+      trim: true,
+    },
+    location: {
+      type: String,
+      trim: true,
+    },
+    client: {
+      type: String,
+      trim: true,
+    },
+    style: {
+      type: String,
+      trim: true,
+    },
+    budget: {
+      type: String,
+      trim: true,
+    },
+    completedDate: {
+      type: Date,
+    },
+  },
+  features: [{
+    type: String,
+    trim: true,
+  }],
+  materials: [{
+    type: String,
+    trim: true,
+  }],
+  colors: [{
+    type: String,
+    trim: true,
+  }],
   seo: {
     metaTitle: {
       type: String,

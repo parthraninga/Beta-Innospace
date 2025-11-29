@@ -39,16 +39,38 @@ export interface Category {
 export interface Project {
   _id: string;
   title: string;
-  client: string;
-  location: string;
-  category: string;
-  beforeImages: DesignImage[];
-  afterImages: DesignImage[];
   description: string;
-  completionDate: string;
+  detailedDescription?: string;
+  category: Category;
+  images: DesignImage[];
   isActive: boolean;
   isFeatured: boolean;
   sortOrder: number;
+  tags: string[];
+  price?: {
+    min: number;
+    max: number;
+    currency: string;
+  };
+  projectDetails?: {
+    area?: string;
+    duration?: string;
+    location?: string;
+    client?: string;
+    style?: string;
+    budget?: string;
+    completedDate?: string;
+  };
+  features?: string[];
+  materials?: string[];
+  colors?: string[];
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    keywords?: string[];
+  };
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ContactForm {

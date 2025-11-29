@@ -1,0 +1,4 @@
+createAdmin.ts - This is the old admin creation script that's no longer needed since you're using createProperAdmin.ts
+debugPassword.ts - Debugging script that's no longer needed
+fixAdmin.ts - Another admin fix script that's redundant
+testAuth.ts - Authentication test script that's no longer needed

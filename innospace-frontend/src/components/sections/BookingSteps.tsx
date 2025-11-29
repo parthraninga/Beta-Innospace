@@ -6,8 +6,13 @@ import {
   CheckCircleIcon,
   ArrowRightIcon 
 } from '@heroicons/react/24/outline';
+import { useModal } from '../../contexts/ModalContext';
+import { useSettings } from '../../hooks/useSettings';
 
 const BookingSteps = () => {
+  const { openConsultationModal } = useModal();
+  const { settings } = useSettings();
+
   const steps = [
     {
       icon: PhoneIcon,
@@ -55,7 +60,7 @@ const BookingSteps = () => {
   };
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -65,17 +70,17 @@ const BookingSteps = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            How It <span className="gradient-text">Works</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-amber-50 mb-6">
+            How It <span className="bg-gradient-to-r from-amber-300 via-amber-200 to-yellow-300 bg-clip-text text-transparent">Works</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-amber-100 max-w-3xl mx-auto mb-8">
             Transform your space in 4 simple steps. From concept to completion, 
             we make the entire process seamless and stress-free.
           </p>
           
           {/* How it Works Link */}
           <motion.button
-            className="inline-flex items-center space-x-2 text-primary-600 hover:text-primary-700 font-medium text-lg"
+            className="inline-flex items-center space-x-2 text-amber-300 hover:text-amber-200 font-medium text-lg"
             whileHover={{ x: 5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
@@ -100,29 +105,29 @@ const BookingSteps = () => {
             >
               {/* Connecting Line (hidden on mobile) */}
               {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-16 left-full w-full h-0.5 bg-gradient-to-r from-primary-300 to-transparent z-0" />
+                <div className="hidden lg:block absolute top-16 left-full w-full h-0.5 bg-gradient-to-r from-amber-400/50 to-transparent z-0" />
               )}
               
               {/* Step Card */}
-              <div className="relative bg-white rounded-2xl p-8 text-center shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 group-hover:border-primary-200 group-hover:-translate-y-2">
+              <div className="relative bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 text-center shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-700 group-hover:border-amber-400/50 group-hover:-translate-y-2">
                 {/* Step Number */}
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="w-8 h-8 bg-primary-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                  <div className="w-8 h-8 bg-gradient-to-r from-amber-500 to-amber-600 text-gray-900 rounded-full flex items-center justify-center text-sm font-bold">
                     {step.step}
                   </div>
                 </div>
 
                 {/* Icon */}
-                <div className="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-primary-200 transition-colors duration-300">
-                  <step.icon className="h-8 w-8 text-primary-600" />
+                <div className="w-16 h-16 bg-amber-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-amber-500/30 transition-colors duration-300">
+                  <step.icon className="h-8 w-8 text-amber-400" />
                 </div>
 
                 {/* Content */}
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                <h3 className="text-xl font-bold text-amber-50 mb-4">
                   {step.title}
                 </h3>
                 
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-amber-100 leading-relaxed">
                   {step.description}
                 </p>
               </div>
@@ -138,22 +143,25 @@ const BookingSteps = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
         >
-          <div className="bg-gradient-to-r from-primary-50 to-accent-50 rounded-2xl p-8 md:p-12">
-            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-              Ready to Transform Your Space?
+          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-gray-700">
+            <h3 className="text-2xl md:text-3xl font-bold text-amber-50 mb-4">
+              Ready to <span className="bg-gradient-to-r from-amber-300 via-amber-200 to-yellow-300 bg-clip-text text-transparent">Transform</span> Your Space?
             </h3>
-            <p className="text-lg text-gray-600 mb-8">
+            <p className="text-lg text-amber-100 mb-8">
               Book your free consultation today and take the first step towards your dream interior.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white text-lg font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+              <button 
+                onClick={openConsultationModal}
+                className="px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-gray-900 text-lg font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+              >
                 Schedule Free Consultation
               </button>
               
-              <button className="px-8 py-4 bg-white hover:bg-gray-50 text-primary-600 text-lg font-semibold rounded-xl border-2 border-primary-600 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2">
+              <button className="px-8 py-4 bg-transparent hover:bg-amber-500/20 text-amber-200 hover:text-amber-100 text-lg font-semibold rounded-xl border-2 border-amber-400 hover:border-amber-300 transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2">
                 <PhoneIcon className="h-5 w-5" />
-                <span>Call: +91-9876543210</span>
+                <span>Call: {settings?.phoneNumber || '+91-9876543211'}</span>
               </button>
             </div>
           </div>

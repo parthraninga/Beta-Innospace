@@ -1,18 +1,16 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import type { ReactNode } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import BottomNav from './BottomNav';
-import ConsultationModal from '../ui/ConsultationModal';
-import QuoteModal from '../ui/QuoteModal';
+import { useModal } from '../../contexts/ModalContext';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const [isConsultationModalOpen, setIsConsultationModalOpen] = useState(false);
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+  const { openConsultationModal } = useModal();
 
   const handleCall = () => {
     window.location.href = 'tel:+91-9876543210';
@@ -24,15 +22,25 @@ const Layout = ({ children }: LayoutProps) => {
   };
 
   const handleQuote = () => {
-    setIsQuoteModalOpen(true);
+    openConsultationModal();
   };
 
   const handleConsultation = () => {
-    setIsConsultationModalOpen(true);
+    openConsultationModal();
   };
 
+  // Listen for custom events from components
+  useEffect(() => {
+    const handleConsultationEvent = () => openConsultationModal();
+    window.addEventListener('openConsultationModal', handleConsultationEvent);
+    
+    return () => {
+      window.removeEventListener('openConsultationModal', handleConsultationEvent);
+    };
+  }, [openConsultationModal]);
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-gray-800">
       <Header />
       <main className="pb-20">
         {children}
@@ -47,16 +55,7 @@ const Layout = ({ children }: LayoutProps) => {
         onConsultation={handleConsultation}
       />
 
-      {/* Modals */}
-      <ConsultationModal
-        isOpen={isConsultationModalOpen}
-        onClose={() => setIsConsultationModalOpen(false)}
-      />
-      
-      <QuoteModal
-        isOpen={isQuoteModalOpen}
-        onClose={() => setIsQuoteModalOpen(false)}
-      />
+      {/* Consultation Modal is handled by ModalContext */}
     </div>
   );
 };

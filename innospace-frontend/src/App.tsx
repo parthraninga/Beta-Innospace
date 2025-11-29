@@ -1,15 +1,24 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ModalProvider } from './contexts/ModalContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import Layout from './components/layout/Layout';
+import ProtectedAdminRoute from './components/admin/ProtectedAdminRoute';
 import Home from './pages/Home';
-import About from './pages/About';
-import Contact from './pages/Contact';
 import Gallery from './pages/Gallery';
 import CategoryPage from './pages/CategoryPage';
-import Projects from './pages/Projects';
-import Services from './pages/Services';
-import FAQ from './pages/FAQ';
+import DynamicPage from './pages/DynamicPage';
+import ProjectsPage from './pages/ProjectsPage';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import CategoriesPage from './pages/admin/CategoriesPage';
+import DesignsPage from './pages/admin/DesignsPage';
+import PagesPage from './pages/admin/PagesPage';
+import ConsultationsPage from './pages/admin/ConsultationsPage';
+import RecentProjectsPage from './pages/admin/RecentProjectsPage';
+import SettingsPage from './pages/admin/SettingsPage';
+import AdminLogin from './pages/admin/AdminLogin';
+import ScrollToTop from './components/common/ScrollToTop';
 import './App.css'
 
 // Create a client
@@ -18,20 +27,36 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Router>
-        <Layout>
+      <ThemeProvider>
+        <ModalProvider>
+          <Router>
+          <ScrollToTop />
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/gallery/:category" element={<CategoryPage />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/faq" element={<FAQ />} />
+          {/* Public Routes */}
+          <Route path="/" element={<Layout><Home /></Layout>} />
+          <Route path="/about" element={<Layout><DynamicPage /></Layout>} />
+          <Route path="/contact" element={<Layout><DynamicPage /></Layout>} />
+          <Route path="/gallery" element={<Layout><Gallery /></Layout>} />
+          <Route path="/gallery/:category" element={<Layout><CategoryPage /></Layout>} />
+          <Route path="/projects" element={<Layout><ProjectsPage /></Layout>} />
+          <Route path="/services" element={<Layout><DynamicPage /></Layout>} />
+          <Route path="/faq" element={<Layout><DynamicPage /></Layout>} />
+          
+          {/* Admin Routes */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<ProtectedAdminRoute />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="categories" element={<CategoriesPage />} />
+            <Route path="designs" element={<DesignsPage />} />
+            <Route path="projects" element={<RecentProjectsPage />} />
+            <Route path="consultations" element={<ConsultationsPage />} />
+            <Route path="pages" element={<PagesPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>
           </Routes>
-        </Layout>
-      </Router>
+        </Router>
+        </ModalProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

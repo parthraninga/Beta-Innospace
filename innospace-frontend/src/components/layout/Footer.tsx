@@ -5,6 +5,7 @@ import {
   MapPinIcon,
   ChatBubbleLeftRightIcon
 } from '@heroicons/react/24/outline';
+import Logo from '../common/Logo';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -43,13 +44,7 @@ const Footer = () => {
           {/* Company Info */}
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">IS</span>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold">INNOSPACE</h3>
-                <p className="text-sm text-gray-400">Interiors</p>
-              </div>
+              <Logo size="md" showText={true} />
             </div>
             <p className="text-gray-400 mb-4">
               We innovate every corner of your space with creative interior design solutions.

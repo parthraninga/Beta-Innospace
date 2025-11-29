@@ -86,8 +86,8 @@ export const createDesign = asyncHandler(async (req: Request, res: Response) => 
   const { title, description, category, images, tags, price, isFeatured } = req.body;
 
   // Validate required fields
-  if (!title || !description || !category || !images || images.length === 0) {
-    throw createError('Please provide title, description, category, and at least one image', 400);
+  if (!title || !description || !category) {
+    throw createError('Please provide title, description, and category', 400);
   }
 
   // Check if category exists
@@ -106,9 +106,18 @@ export const createDesign = asyncHandler(async (req: Request, res: Response) => 
     title,
     description,
     category,
-    images,
+    images: images && images.length > 0 ? images : [{
+      url: 'https://via.placeholder.com/400x300?text=No+Image',
+      thumbnail: 'https://via.placeholder.com/200x150?text=No+Image',
+      alt: `${title} placeholder image`,
+      sortOrder: 0
+    }],
     tags: tags || [],
-    price,
+    price: price ? {
+      min: price,
+      max: price,
+      currency: 'INR'
+    } : undefined,
     isFeatured: isFeatured || false,
     sortOrder
   });

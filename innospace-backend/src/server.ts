@@ -38,7 +38,10 @@ app.use(morgan('combined'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-logger.info('Registered middleware: rateLimit, helmet, cors, compression, morgan, json/urlencoded');
+// Serve static files (logos, etc.)
+app.use('/static', express.static('public'));
+
+logger.info('Registered middleware: rateLimit, helmet, cors, compression, morgan, json/urlencoded, static file serving');
 
 // Health check endpoint
 app.get('/health', (req, res) => {
